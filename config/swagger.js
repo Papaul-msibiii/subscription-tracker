@@ -1,5 +1,5 @@
 import swaggerJSDoc from 'swagger-jsdoc';
-import { NODE_ENV } from './config/env.js';
+import { NODE_ENV } from './env.js';
 
 /**
  * @swagger
