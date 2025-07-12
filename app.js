@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import swaggerUi from 'swagger-ui-express';
 
-import { PORT, NODE_ENV,  ENABLE_SWAGGER } from './config/env.js';
+import { PORT, NODE_ENV, ENABLE_SWAGGER, SWAGGER_TOKEN } from './config/env.js';
 import swaggerSpec from './config/swagger.js';
 
 import userRouter from "./routes/user.routes.js";
@@ -20,10 +20,28 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(arcjetMiddleware);
+
 const enableSwagger = NODE_ENV !== "production" || ENABLE_SWAGGER === "true";
 
+const swaggerUiOptions = {
+  swaggerOptions: {
+    authAction: {
+      bearerAuth: {
+        name: "Authorization",
+        schema: {
+          type: "http",
+          in: "header",
+          name: "Authorization",
+          description: "Enter your bearer token in the format **Bearer &lt;token>**",
+        },
+        value: `Bearer ${SWAGGER_TOKEN}`, // Tu peux laisser vide ici si tu veux que l'utilisateur l'entre manuellement
+      },
+    },
+  },
+};
+
 if (enableSwagger) {
-  app.use('/docs', protectSwagger, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use('/docs', protectSwagger, swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
 }
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
