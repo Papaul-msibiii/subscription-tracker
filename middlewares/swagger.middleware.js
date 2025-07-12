@@ -9,7 +9,7 @@ const protectSwagger = (req, res, next) => {
     const isAuthorized = cookieToken === expectedToken || headerToken === expectedToken;
 
     if (NODE_ENV === "production" && SWAGGER_TOKEN && !isAuthorized) {
-        return res.status(403).json({ message: "Access to API docs is forbidden" });
+        return res.status(403).json({ message: "Access to API docs is forbidden. Visit /login-docs to enter your token." });
     }
     
     next();
