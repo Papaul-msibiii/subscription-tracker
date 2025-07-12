@@ -43,6 +43,33 @@ const swaggerUiOptions = {
 if (enableSwagger) {
   app.use('/docs', protectSwagger, swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
 }
+
+// Login form to access Swagger
+app.get('/login-docs', (req, res) => {
+  res.send(`
+    <html>
+      <head>
+        <title>Login to Swagger Docs</title>
+      </head>
+      <body>
+        <h2>Enter your access token</h2>
+        <form method="POST" action="/login-docs">
+          <input type="text" name="token" placeholder="Bearer token" style="width: 300px;" required />
+          <button type="submit">Access Docs</button>
+        </form>
+      </body>
+    </html>
+  `);
+});
+
+app.post('/login-docs', (req, res) => {
+  const { token } = req.body;
+  if (!token) return res.status(400).send('Token required');
+  res.cookie('swagger_token', token, { httpOnly: true });
+  res.redirect('/docs');
+});
+
+// API routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/subscriptions', subscriptionRouter);
