@@ -1,4 +1,5 @@
 import swaggerJSDoc from 'swagger-jsdoc';
+import { NODE_ENV } from './config/env.js';
 
 /**
  * @swagger
@@ -296,7 +297,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:5500/api/v1',
+        url: NODE_ENV !== "production" ? 'http://localhost:5500/api/v1' : "https://subscription-tracker-ywrh.onrender.com/api/v1",
       },
     ],
   },
