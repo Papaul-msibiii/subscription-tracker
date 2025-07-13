@@ -12,7 +12,7 @@ import connectToDatabase from "./database/mongodb.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
 import arcjetMiddleware from "./middlewares/arcjet.middleware.js";
 import workflowRouter from "./routes/workflow.routes.js";
-import protectSwagger from "./middlewares/swagger.middleware.js";
+// import protectSwagger from "./middlewares/swagger.middleware.js";
 
 const app = express();
 
