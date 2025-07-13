@@ -41,7 +41,9 @@ const swaggerUiOptions = {
 };
 
 if (enableSwagger) {
-  app.use('/docs', protectSwagger, swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
+  app.use('/docs', 
+    // protectSwagger, 
+    swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
 }
 
 // Login form to access Swagger
